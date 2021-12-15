@@ -1,8 +1,28 @@
 <h1>Flights Search</h1>
 <div class="container">
-<%= form_for @flight do |f| %>
-  <%= f.collection_select :flight_id,
-                          Flight.all.order(:origin_id),
+<%= form_for @flight, url: flights_path, method: :get do |f| %>
+  <%= f.collection_select :origin_id,
+                          Airport.all.order(:origin_id),
+                          :id,
+                          :code,
                           include_blank: 'Origin' %>
+  <%= f.collection_select :destination_id,
+                          Airport.all.order(:destination_id),
+                          :id,
+                          :code,
+                          include_blank: 'Destination' %>
+  <%= f.collection_select :origin_id,
+                          Flight.all.order(:departure),
+                          :id,
+                          :departure,
+                          include_blank: 'Departure' %>
+  <%= f.submit "Search" %>
 <% end %>
+
+<ul>
+  <% @flights.each do |flight| %>
+    <li><%= flight.origin.code %></li>
+  <% end %>
+</ul>
+
 </div>
