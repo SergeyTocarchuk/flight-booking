@@ -1,28 +1,52 @@
-<h1>Flights Search</h1>
 <div class="container">
-<%= form_for @flight, url: flights_path, method: :get do |f| %>
-  <%= f.collection_select :origin_id,
-                          Airport.all.order(:origin_id),
-                          :id,
-                          :code,
-                          include_blank: 'Origin' %>
-  <%= f.collection_select :destination_id,
-                          Airport.all.order(:destination_id),
-                          :id,
-                          :code,
-                          include_blank: 'Destination' %>
-  <%= f.collection_select :origin_id,
-                          Flight.all.order(:departure),
-                          :id,
-                          :departure,
-                          include_blank: 'Departure' %>
-  <%= f.submit "Search" %>
-<% end %>
+  <h1>Flights Search</h1>
+  <div class="flight-form">
+    <%= form_with url: flights_path, method: :get do |f| %>
+      <%= f.collection_select :origin_id,
+                              Airport.all,
+                              :id,
+                              :code,
+                              include_blank: 'Origin' %>
+      <%= f.collection_select :destination_id,
+                              Airport.all,
+                              :id,
+                              :code,
+                              include_blank: 'Destination' %>
+      <%= f.collection_select :flight_id,
+                              Flight.all,
+                              :id,
+                              :departure,
+                              include_blank: 'Departure' %>
+      <%= f.submit "Search" %>
+    <% end %>
+  </div>
 
-<ul>
-  <% @flights.each do |flight| %>
-    <li><%= flight.origin.code %></li>
-  <% end %>
-</ul>
-
+  <div>
+    <table>
+        <thead>
+          <tr>
+            <th>Flight #</th>
+            <th>Origin</th>
+            <th>Destination</th>
+            <th>Date</th>
+            <th>Duration</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @flights.each do |flight| %>
+            <tr>
+              <td><%= flight.id %></td>
+              <td><%= flight.origin.code %> <%= flight.origin.city%></td>
+              <td><%= flight.destination.code %> <%= flight.destination.city %></td>
+              <td><%= flight.date_formatted %></td>
+              <td><%= flight.duration %></td>
+              <td>
+                <%= button_to 'Book', root_path,
+                                      method: :get %>  
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+    </ul>
+  </div>
 </div>

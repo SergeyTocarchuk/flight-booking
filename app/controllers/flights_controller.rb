@@ -1,9 +1,10 @@
 class FlightsController < ApplicationController
   def index
-    @flight = params[:flight] ? Flight.new(flight_params) : Flight.new    
-    if flight_params
-      @flights = Flight.where(flight_params).order(:date)
-    end
+    @flights = Flight.all
+    @flights = @flights.where(origin_id: params[:origin_id]) if params[:origin_id].present?
+    @flights = @flights.where(destination_id: params[:destination_id]) if params[:destination_id].present?
+    @flights = @flights.where(destination_id: params[:destination_id]) if params[:destination_id].present?
+    @flights = @flights.order(:date)
   end
 
   private
