@@ -1,10 +1,14 @@
 class FlightsController < ApplicationController
   def index
-    @flights = Flight.all
-    @flights = @flights.where(origin_id: params[:origin_id]) if params[:origin_id].present?
-    @flights = @flights.where(destination_id: params[:destination_id]) if params[:destination_id].present?
-    @flights = @flights.where(destination_id: params[:destination_id]) if params[:destination_id].present?
-    @flights = @flights.order(:date)
+    if params[:is_searching]
+      @flights = Flight.all
+      @flights = @flights.where(origin_id: params[:origin_id]) if params[:origin_id].present?
+      @flights = @flights.where(destination_id: params[:destination_id]) if params[:destination_id].present?
+      @flights = @flights.where(destination_id: params[:destination_id]) if params[:destination_id].present?
+      @flights = @flights.order(:date)
+    else
+      @flights = []
+    end
   end
 
   private

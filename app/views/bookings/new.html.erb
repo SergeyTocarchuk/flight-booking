@@ -1,0 +1,13 @@
+<h3>Booking Template</h3>
+
+<%= form_with model: @booking do |form| %>
+  <%= form.hidden_field :flight_id, value: params[:flight_id] %>
+  <%= form.fields_for :passengers do |passenger_form| %>
+    <%= passenger_form.hidden_field :id, value: nil %>
+    <%= passenger_form.text_field :name %>
+    <%= passenger_form.text_field :email %>
+  <% end %>
+  <%= form.submit 'Book' %>
+<% end %>
+
+<%= console %>

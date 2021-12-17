@@ -2,6 +2,7 @@
   <h1>Flights Search</h1>
   <div class="flight-form">
     <%= form_with url: flights_path, method: :get do |f| %>
+      <%= f.hidden_field :is_searching, value: 1 %>
       <%= f.collection_select :origin_id,
                               Airport.all,
                               :id,
@@ -20,33 +21,35 @@
       <%= f.submit "Search" %>
     <% end %>
   </div>
-
-  <div>
-    <table>
-        <thead>
-          <tr>
-            <th>Flight #</th>
-            <th>Origin</th>
-            <th>Destination</th>
-            <th>Date</th>
-            <th>Duration</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% @flights.each do |flight| %>
+  <% if @flights.any? %>
+    <div>
+      <table>
+          <thead>
             <tr>
-              <td><%= flight.id %></td>
-              <td><%= flight.origin.code %> <%= flight.origin.city%></td>
-              <td><%= flight.destination.code %> <%= flight.destination.city %></td>
-              <td><%= flight.date_formatted %></td>
-              <td><%= flight.duration %></td>
-              <td>
-                <%= button_to 'Book', root_path,
-                                      method: :get %>  
-              </td>
+              <th>Flight #</th>
+              <th>Origin</th>
+              <th>Destination</th>
+              <th>Date</th>
+              <th>Duration</th>
             </tr>
-          <% end %>
-        </tbody>
-    </ul>
-  </div>
+          </thead>
+          <tbody>
+            <% @flights.each do |flight| %>
+              <tr>
+                <td><%= flight.id %></td>
+                <td><%= flight.origin.code %> <%= flight.origin.city%></td>
+                <td><%= flight.destination.code %> <%= flight.destination.city %></td>
+                <td><%= flight.date_formatted %></td>
+                <td><%= flight.duration %></td>
+                <td>
+                <%= link_to 'Book', new_booking_path(flight_id: flight.id),
+                                        method: :get %>  
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+      </ul>
+    </div>
+  <% end %>
 </div>
+  <%= console %>
