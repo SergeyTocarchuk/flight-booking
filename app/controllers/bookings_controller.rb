@@ -11,6 +11,7 @@ class BookingsController < ApplicationController
                                           email: params[:booking][:passengers][:email]
                                           )
     if @booking.save
+      PassengerMailer.with(booking_id: @booking.id).confirmation.deliver_now
       redirect_to root_path
     else
       render 'new'

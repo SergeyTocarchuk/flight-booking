@@ -1,13 +1,26 @@
-<h3>Booking Template</h3>
+<div class="container">
+  <h3>Complete Your Booking</h3>
 
-<%= form_with model: @booking do |form| %>
-  <%= form.hidden_field :flight_id, value: params[:flight_id] %>
-  <%= form.fields_for :passengers do |passenger_form| %>
-    <%= passenger_form.hidden_field :id, value: nil %>
-    <%= passenger_form.text_field :name %>
-    <%= passenger_form.text_field :email %>
+  <%= render 'flights/flight', flight: @flight %>
+
+  <h3>Passenger Details</h3>
+  
+  <%= form_with model: @booking do |form| %>
+    <%= form.hidden_field :flight_id, value: params[:flight_id] %>
+    <div class="form">
+      <div class="form-inputs">
+        <%= form.fields_for :passengers do |passenger_form| %>
+          <%= passenger_form.hidden_field :id, value: nil %>
+          <%= passenger_form.text_field :name, placeholder: "Name" %>
+          <%= passenger_form.text_field :email, placeholder: "e-mail" %>
+        <% end %>
+      </div>
+      <div class="form-buttons">
+        <%= link_to 'Cancel', root_path, class: "btn" %>
+        <%= form.submit 'Book' %>
+      </div>
+    </div>
   <% end %>
-  <%= form.submit 'Book' %>
-<% end %>
-
-<%= console %>
+    
+  <%= console %>
+</div>
